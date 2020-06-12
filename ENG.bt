@@ -1,0 +1,76 @@
+//------------------------------------------------
+//--- 010 Editor v7.0.2 Binary Template
+//
+//      File: ENG Live For Speed Engine
+//   Authors: Draggo
+//   Version: 1
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+struct FILE{
+    struct HEADER {
+        char head[6] <bgcolor=0x67D8D8>;
+        byte empty;
+        byte version <bgcolor=0x9F9FFE ,format=hex>;
+        byte unkn1 <bgcolor=0x9FAFFF ,format=hex>;
+        byte empty1[3];
+        byte unkn2 <bgcolor=0x9FAFFF ,format=hex>;
+        byte empty2[3];
+    } header;
+    float flo1 <comment = "Something float" ,bgcolor=0xBDC703>;
+    byte unk3[4];
+    if (header.version == -6)
+    {
+        float flo2[5] <comment = "Something float" ,bgcolor=0xBDC703>;
+    }
+    else
+    {
+        float flo2[7] <comment = "Something float" ,bgcolor=0xBDC703>;
+    }
+    byte empty4[2];
+    short unk4;
+    uint unk6; 
+    if (header.version == -6)
+    {
+        float flo3[ (FileSize() - 168)/4] <comment = "Something float" ,bgcolor=0x6767D8>;
+    }
+    else
+    {
+        float flo3[ (FileSize() - 176)/4] <comment = "Something float" ,bgcolor=0x6767D8>;
+    }
+    
+    float tone <comment = "Exhaust pipe tone" ,bgcolor=0xBDC703>;
+    float tone2 <comment = "Tone variation" ,bgcolor=0xBDC703>;
+    float silence <comment = "Silencers" ,bgcolor=0xBDC703>;
+    float unev <comment = "Unevenness" ,bgcolor=0xBDC703>;
+    float exh <comment = "Exhaust pulse tone" ,bgcolor=0xBDC703>;
+    float offp <comment = "Off power tone" ,bgcolor=0xBDC703>;
+    float offp2 <comment = "Off power volume" ,bgcolor=0xBDC703>;
+    float idle <comment = "Idle volume boost" ,bgcolor=0xBDC703>;
+    float tubo <comment = "Turbo recorded" ,bgcolor=0xBDC703>;
+    float tubo2 <comment = "Turbo volume" ,bgcolor=0xBDC703>;
+    float tubo3 <comment = "Turbo muffler" ,bgcolor=0xBDC703>;
+    float dump <comment = "Dump valve volume" ,bgcolor=0xBDC703>;
+    float dump2 <comment = "Dump valve muffler" ,bgcolor=0xBDC703>;
+    float gear <comment = "Gear whine recorded" ,bgcolor=0xBDC703>;
+    float gear2 <comment = "Gear whine volume" ,bgcolor=0xBDC703>;
+    float gear3 <comment = "Gear whine muffler" ,bgcolor=0xBDC703>;
+    float air <comment = "Air intake volume" ,bgcolor=0xBDC703>;
+    float air2 <comment = "Air intake muffler" ,bgcolor=0xBDC703>;
+    float gshift <comment = "Gear shift volume" ,bgcolor=0xBDC703>;
+    float gshift2 <comment = "Gear shift muffler" ,bgcolor=0xBDC703>;
+    float start <comment = "Starter volume" ,bgcolor=0xBDC703>;
+    float start2 <comment = "Starter muffler" ,bgcolor=0xBDC703>;
+    float ex <comment = "Exhaust volume" ,bgcolor=0xBDC703>;
+    float coc <comment = "Cockpit muffing" ,bgcolor=0xBDC703>;
+    float wind <comment = "Wind volume" ,bgcolor=0xBDC703>;
+    float skid <comment = "Skid volume" ,bgcolor=0xBDC703>;
+    float hea <comment = "Header MIX" ,bgcolor=0xBDC703>;
+    float col <comment = "Colector MIX" ,bgcolor=0xBDC703>;
+    float tail <comment = "Tail MIX" ,bgcolor=0xBDC703>;
+} file;
