@@ -3,7 +3,7 @@
 //
 //      File: ENG Live For Speed Engine
 //   Authors: Draggo
-//   Version: 2
+//   Version: 3
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,16 @@ string pots (float &i) {
     SPrintf(pot, "%0.14f",((float)i));
     return pot;
 }
+string sto (float &i) {
+    string hun;
+    SPrintf(hun, "%0.2f",((float)i /1000));
+    return hun;
+}
+string red (float &i) {
+    string line;
+    SPrintf(line, "%0.2f",((float)i *9.5493f));
+    return line;
+}
 
 struct FILE{
     struct HEADER {
@@ -23,37 +33,50 @@ struct FILE{
         byte version <bgcolor=0x9F9FFE ,format=hex>;
         
     } header;
-    int TSTB <comment = "12:Turbo=NO;TwoStroke=NO, 13:Turbo=YES;TwoStroke=NO;V8Sound=NO, 14:Turbo=NO;TwoStroke=NO;V8Sound=YES, 15:Turbo=YES;TwoStroke=NO;V8Sound=YES, 29:Turbo=NO;TwoStroke=YES, 29:Turbo=YES;TwoStroke=YES, 30:Turbo=NO;TwoStroke=YES;V8Sound=YES, 31:Turbo=YES;TwoStroke=YES;V8Sound=YES",bgcolor=0xBDC703>;
+    int TSTB <comment = "8:Electric, 12:Turbo=NO;TwoStroke=NO, 13:Turbo=YES;TwoStroke=NO;V8Sound=NO, 14:Turbo=NO;TwoStroke=NO;V8Sound=YES, 15:Turbo=YES;TwoStroke=NO;V8Sound=YES, 29:Turbo=NO;TwoStroke=YES, 29:Turbo=YES;TwoStroke=YES, 30:Turbo=NO;TwoStroke=YES;V8Sound=YES, 31:Turbo=YES;TwoStroke=YES;V8Sound=YES",bgcolor=0xBDC703>;
     int unk;
-    float EngineSize <comment = "Engine size" ,bgcolor=0xBDC703>;
-    byte Cylinders<comment = "Cylinders 1 - 12" ,bgcolor=0xBDC703>;
-    byte Layout<comment = "Layout 0:Inline 1:Flat 2:V" ,bgcolor=0xBDC703>;
-    byte non[2];
-    if (header.version == -6)
+    if (TSTB == 8)
     {
-        float som;
-        float som2;
-        float som3;
-        float som4;
-        float som5;
+        float eRedline<comment = red ,bgcolor=0xBDC703>;
+        float eMaxPower<comment = sto ,bgcolor=0xBDC703>;
+        float eMaxTorque<comment = "Max Torque" ,bgcolor=0xBDC703>;
+       
     }
     else
     {
-        float turbomaxboost <comment = "Turbo Max Boost" ,bgcolor=0xBDC703>;
-        float turbomultipler <comment = "Turbo MOI Multipler" ,bgcolor=0xBDC703>;
-        float maxtorquemul <comment = "Max Torque Mul" ,bgcolor=0xBDC703>;
-        float torquesmul <comment = "Torque Spread Mul" ,bgcolor=0xBDC703>;
-        float flo0 <comment = "Something float" ,bgcolor=0xBDC703>;
-        float redline <comment = "Redline?" ,bgcolor=0xBDC703>;
-        float camtime <comment = "Cam Timing" ,bgcolor=0xBDC703>;
-        float ResistanceMul <comment = pots ,bgcolor=0xBDC703>;
-        float InteriaMul <comment = pots ,bgcolor=0xBDC703>;
-        float idle<comment = "Idle Speed?" ,bgcolor=0xBDC703>;
+        float EngineSize <comment = "Engine size" ,bgcolor=0xBDC703>;
+        byte Cylinders<comment = "Cylinders 1 - 12" ,bgcolor=0xBDC703>;
+        byte Layout<comment = "Layout 0:Inline 1:Flat 2:V" ,bgcolor=0xBDC703>;
+        byte non[2];
+        if (header.version == -6)
+        {
+            float som;
+            float som2;
+            float som3;
+            float som4;
+            float som5;
+        }
+        else
+        {
+            float turbomaxboost <comment = "Turbo Max Boost" ,bgcolor=0xBDC703>;
+            float turbomultipler <comment = "Turbo MOI Multipler" ,bgcolor=0xBDC703>;
+            float maxtorquemul <comment = "Max Torque Mul" ,bgcolor=0xBDC703>;
+            float torquesmul <comment = "Torque Spread Mul" ,bgcolor=0xBDC703>;
+            float flo0 <comment = "Something float" ,bgcolor=0xBDC703>;
+            float redline <comment = "Redline?" ,bgcolor=0xBDC703>;
+            float camtime <comment = "Cam Timing" ,bgcolor=0xBDC703>;
+            float ResistanceMul <comment = pots ,bgcolor=0xBDC703>;
+            float InteriaMul <comment = pots ,bgcolor=0xBDC703>;
+            float idle<comment = "Idle Speed?" ,bgcolor=0xBDC703>;
+        }
     }
- 
     if (header.version == -6)
     {
         float flo3[ (FileSize() - 160)/4] <bgcolor=0x6767D8>;
+    }
+    else if (TSTB == 8)
+    {
+        float flo3[ (FileSize() - 144)/4] <bgcolor=0x6767D8>;
     }
     else
     {
