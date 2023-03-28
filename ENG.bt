@@ -2,8 +2,8 @@
 //--- 010 Editor v7.0.2 Binary Template
 //
 //      File: ENG Live For Speed Engine
-//   Authors: Draggo
-//   Version: 3
+//   Authors: Draggo & Ganjaman
+//   Version: 5
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -26,6 +26,18 @@ string red (float &i) {
     return line;
 }
 
+string bin (int &i){
+    string bina = IntToBinaryStr(i);
+    return bina;
+}
+
+
+struct WAVE{
+    int headr <format=hex,bgcolor=0x0000ff>;
+    int fileSize <comment= "Samples in wav", bgcolor=0x225F2A>;
+    float file[fileSize] <comment="Samples of wav", bgcolor=0xff5555>;
+};
+
 struct FILE{
     struct HEADER {
         char head[6] <bgcolor=0x67D8D8>;
@@ -33,9 +45,10 @@ struct FILE{
         byte version <bgcolor=0x9F9FFE ,format=hex>;
         
     } header;
-    int TSTB <comment = "8:Electric, 12:Turbo=NO;TwoStroke=NO, 13:Turbo=YES;TwoStroke=NO;V8Sound=NO, 14:Turbo=NO;TwoStroke=NO;V8Sound=YES, 15:Turbo=YES;TwoStroke=NO;V8Sound=YES, 29:Turbo=NO;TwoStroke=YES, 29:Turbo=YES;TwoStroke=YES, 30:Turbo=NO;TwoStroke=YES;V8Sound=YES, 31:Turbo=YES;TwoStroke=YES;V8Sound=YES",bgcolor=0xBDC703>;
-    int unk;
-    if (TSTB == 8)
+    int TSTB <comment =bin, bgcolor=0xBDC703>;
+    byte someFlages[3]<comment="from TSTB: 8:Electric, 9:CrossPlane=NO;Turbo=YES;TwoStroke:NO, 11:CrossPlane=YES;Turbo=YES;TwoStroke:NO 12:Turbo=NO;TwoStroke=NO, 13:Turbo=YES;TwoStroke=NO;CrossPlane=NO, 14:Turbo=NO;TwoStroke=NO;CrossPlane=YES, 15:Turbo=YES;TwoStroke=NO;CrossPlane=YES, 27:CrossPlane=YES;Turbo=YES;TwoStroke:YES 29:Turbo=NO;TwoStroke=YES, 30:Turbo=NO;TwoStroke=YES;CrossPlane=YES, 31:Turbo=YES;TwoStroke=YES;CrossPlane=YES",bgcolor=0xBDC703>;
+    byte flagEV;
+    if (flagEV == 1)
     {
         float eRedline<comment = red ,bgcolor=0xBDC703>;
         float eMaxPower<comment = sto ,bgcolor=0xBDC703>;
@@ -48,7 +61,7 @@ struct FILE{
         byte Cylinders<comment = "Cylinders 1 - 12" ,bgcolor=0xBDC703>;
         byte Layout<comment = "Layout 0:Inline 1:Flat 2:V" ,bgcolor=0xBDC703>;
         byte non[2];
-        if (header.version == -6)
+        if (header.version <= -5)
         {
             float som;
             float som2;
@@ -70,18 +83,21 @@ struct FILE{
             float idle<comment = "Idle Speed?" ,bgcolor=0xBDC703>;
         }
     }
-    if (header.version == -6)
-    {
-        float flo3[ (FileSize() - 160)/4] <bgcolor=0x6767D8>;
-    }
-    else if (TSTB == 8)
-    {
-        float flo3[ (FileSize() - 144)/4] <bgcolor=0x6767D8>;
-    }
-    else
-    {
-        float flo3[ (FileSize() - 178)/4] <bgcolor=0x6767D8>;
-    }
+    WAVE EngineWaveSample;
+
+    WAVE TurboSample;
+
+    WAVE WindSkidSample;
+
+    WAVE GearWhineSample;
+
+    WAVE AirIntakeSample;
+
+    WAVE DumpValveSample;
+
+    WAVE GearShiftSample;
+
+    WAVE StarterSample;
     
     float tone <comment = "Exhaust pipe tone" ,bgcolor=0xBDC703>;
     float tone2 <comment = "Tone variation" ,bgcolor=0xBDC703>;
