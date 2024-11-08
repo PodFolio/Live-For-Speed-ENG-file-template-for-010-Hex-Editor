@@ -30,7 +30,19 @@ string bin (int &i){
     string bina = IntToBinaryStr(i);
     return bina;
 }
+struct TSTB {
+    byte turbo:1;
+    byte cross:1;
+    byte none:1;
+    byte isLoadedFromFile:1;
+    byte stroke:1;
+};
 
+enum <byte> EngineLayout  {
+    Inline = 0,
+    Flat = 1,
+    V = 2
+}; 
 
 struct WAVE{
     int headr <format=hex,bgcolor=0x0000ff>;
@@ -45,8 +57,9 @@ struct FILE{
         byte version <bgcolor=0x9F9FFE ,format=hex>;
         
     } header;
-    int TSTB <comment =bin, bgcolor=0xBDC703>;
-    byte someFlages[3]<comment="from TSTB: 8:Electric, 9:CrossPlane=NO;Turbo=YES;TwoStroke:NO, 11:CrossPlane=YES;Turbo=YES;TwoStroke:NO 12:Turbo=NO;TwoStroke=NO, 13:Turbo=YES;TwoStroke=NO;CrossPlane=NO, 14:Turbo=NO;TwoStroke=NO;CrossPlane=YES, 15:Turbo=YES;TwoStroke=NO;CrossPlane=YES, 27:CrossPlane=YES;Turbo=YES;TwoStroke:YES 29:Turbo=NO;TwoStroke=YES, 30:Turbo=NO;TwoStroke=YES;CrossPlane=YES, 31:Turbo=YES;TwoStroke=YES;CrossPlane=YES",bgcolor=0xBDC703>;
+    TSTB tstb <bgcolor=0xBDC703>;
+    byte empty[3];
+    byte someFlages[3];
     byte flagEV;
     if (flagEV == 1)
     {
@@ -59,7 +72,7 @@ struct FILE{
     {
         float EngineSize <comment = "Engine size" ,bgcolor=0xBDC703>;
         byte Cylinders<comment = "Cylinders 1 - 12" ,bgcolor=0xBDC703>;
-        byte Layout<comment = "Layout 0:Inline 1:Flat 2:V" ,bgcolor=0xBDC703>;
+        EngineLayout Layout<bgcolor=0xBDC703>;
         byte non[2];
         if (header.version <= -5)
         {
